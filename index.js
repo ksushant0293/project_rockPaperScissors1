@@ -23,10 +23,13 @@ const singleRound = (playerSelection, computerSelection) => {
   ) {
     computerScore += 1;
     return `You Lose! ${computerSelection} beats ${playerSelection}`;
-  } else {
+  } else if ((playerSelection == computerSelection)){
     return `it's a tie`;
+  }else{
+     restart();
+     return "play again";
   }
-};
+  }
 
 function playRound(e) {
   // console.log(e.target);
