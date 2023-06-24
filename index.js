@@ -5,9 +5,6 @@ const computerSelection = () => {
   return gameInput[idx];
 };
 
-//write input from user
-// let playerSelection = prompt("enter your choice","rock");
-//        playerSelection =  playerSelection.toLowerCase();
 let playerScore = 0;
 let computerScore = 0;
 // write function of single round
@@ -26,32 +23,53 @@ const singleRound = (playerSelection, computerSelection) => {
   ) {
     computerScore += 1;
     return `You Lose! ${computerSelection} beats ${playerSelection}`;
-  } else if (
-    playerSelection == computerSelection ||
-    playerSelection == computerSelection ||
-    playerSelection == computerSelection
-  ) {
-    return `it's a tie`;
   } else {
-    console.log(playerSelection, computerSelection);
-    return "please enter valid option";
+    return `it's a tie`;
   }
 };
 
-// write function game loop
-let game = () => {
-  for (let i = 0; i < 5; i++) {
-    let playerSelection = prompt("enter your choice", "rock");
-    playerSelection = playerSelection.toLowerCase();
+function playRound(e) {
+  // console.log(e.target);
+  if (e) {
+    let playerSelection = e.target.innerText;
+    //console.log(playerSelection);
     let computerChoice = computerSelection();
-    console.log(singleRound(playerSelection, computerChoice));
+    const outcomeDiv = document.querySelector(".outcome");
+    const p = document.createElement("p");
+    let firstRound = singleRound(playerSelection, computerChoice);
+    p.innerText = firstRound;
+    outcomeDiv.appendChild(p);
   }
-  if (playerScore > computerScore) {
-    return "congratulations you won";
-  } else if (playerScore < computerScore) {
-    return "sorry! you loose";
-  } else {
-    return "draw";
+
+  const playerScoreSpan = document.querySelector(".playerScore");
+  const computerScoreSpan = document.querySelector(".computerScore");
+
+  playerScoreSpan.innerText = `playerScore: ${playerScore}       `;
+  computerScoreSpan.innerText = `computerScore: ${computerScore}     `;
+  scoreUpdate(playerScore, computerScore);
+}
+function restart() {
+  playerScore = 0;
+  computerScore = 0;
+}
+
+const scoreUpdate = (playerScore, computerScore) => {
+  if (playerScore == 5 || computerScore == 5) {
+    const outcomeDiv = document.querySelector(".outcome");
+    const h2 = document.createElement("h2");
+    h2.innerText = "congratulations you won!";
+    if (playerScore < computerScore) {
+      h2.innerText = "sorry you lost!";
+    }
+    outcomeDiv.appendChild(h2);
+    restart();
+    return;
   }
 };
-console.log(game());
+
+const buttons = document.querySelectorAll("button");
+//console.log(buttons);
+buttons.forEach((button) => {
+  button.addEventListener("click", playRound);
+});
+playRound();

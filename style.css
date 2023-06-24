@@ -1,0 +1,33 @@
+.center{
+    text-align: center;
+}
+.secCenter{
+    text-align: center;
+    color: blueviolet;
+}
+#btnContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.btn{
+    cursor: pointer;
+}
+
+.roundResult{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 2px;
+    border: 2px;
+    border-radius: 9px;
+}
+
+.outcome{
+    text-align: center;
+}
+.finalOutcome{
+    text-align: center;
+}
