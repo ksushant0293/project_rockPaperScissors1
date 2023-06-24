@@ -23,25 +23,27 @@ const singleRound = (playerSelection, computerSelection) => {
   ) {
     computerScore += 1;
     return `You Lose! ${computerSelection} beats ${playerSelection}`;
-  } else if ((playerSelection == computerSelection)){
+  } else {
     return `it's a tie`;
-  }else{
-     restart();
-     return "play again";
   }
-  }
+}
 
 function playRound(e) {
-  // console.log(e.target);
+  if (playerScore == 5 || computerScore == 5) {
+    const outcomeDiv = document.querySelector(".outcome");
+    outcomeDiv.innerHTML = "<h2>congratulations you won! & please click on reset  button to play again</h2>";
+    if (playerScore < computerScore) {
+      outcomeDiv.innerHTML = "<h2>sorry you lost! & please click on reset  button to play again</h2>";
+    }
+    return ;
+  }
+  
   if (e) {
     let playerSelection = e.target.innerText;
-    //console.log(playerSelection);
     let computerChoice = computerSelection();
     const outcomeDiv = document.querySelector(".outcome");
-    const p = document.createElement("p");
     let firstRound = singleRound(playerSelection, computerChoice);
-    p.innerText = firstRound;
-    outcomeDiv.appendChild(p);
+    outcomeDiv.innerText = firstRound;
   }
 
   const playerScoreSpan = document.querySelector(".playerScore");
@@ -49,30 +51,37 @@ function playRound(e) {
 
   playerScoreSpan.innerText = `playerScore: ${playerScore}       `;
   computerScoreSpan.innerText = `computerScore: ${computerScore}     `;
-  scoreUpdate(playerScore, computerScore);
 }
-function restart() {
+ function restart() {
   playerScore = 0;
   computerScore = 0;
+  let outcomeDiv = document.querySelector(".outcome");
+  outcomeDiv.innerHTML = "";
 }
 
 const scoreUpdate = (playerScore, computerScore) => {
   if (playerScore == 5 || computerScore == 5) {
     const outcomeDiv = document.querySelector(".outcome");
     const h2 = document.createElement("h2");
-    h2.innerText = "congratulations you won!";
-    if (playerScore < computerScore) {
-      h2.innerText = "sorry you lost!";
-    }
+    h2.innerText = "";
     outcomeDiv.appendChild(h2);
+    if (playerScore < computerScore) {
+      h2.innerText = "sorry you lost! & please click on reset  button to play again";
+      outcomeDiv.appendChild(h2);
+    }
     restart();
-    return;
+    return ;
   }
 };
+const resetButton = document.querySelector(".reset");
+  resetButton.addEventListener('click',function(event) {
+  restart();
+  playRound();
+})
 
-const buttons = document.querySelectorAll("button");
-//console.log(buttons);
+const buttons = document.querySelectorAll(".btn");
 buttons.forEach((button) => {
   button.addEventListener("click", playRound);
 });
+
 playRound();
